@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View view) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(intent, SIGN_IN_GOOGLE_CODE);
+                startActivityForResult(intent, SIGN_IN_GOOGLE_CODE); //Llama a actividad que devuelve resultado
             }
         });
 
-        btnSignInFacebook.setReadPermissions(Arrays.asList("email"));
+        btnSignInFacebook.setReadPermissions(Arrays.asList("email")); //Permisos definidos , ej public_profile
         btnSignInFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -131,11 +131,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         };
 
         //Inicialización de Google Account
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN) //Configura Autenticacion
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        googleApiClient = new GoogleApiClient.Builder(this)
+        googleApiClient = new GoogleApiClient.Builder(this) // Acceso a la API
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private void signInGoogleFirebase(GoogleSignInResult googleSignInResult){
         if (googleSignInResult.isSuccess()){
             AuthCredential authCredential =
-                    GoogleAuthProvider.getCredential(googleSignInResult.getSignInAccount().getIdToken(),null);
+                    GoogleAuthProvider.getCredential(googleSignInResult.getSignInAccount().getIdToken(),null); //Obtiene Crecencial a partir del token recibido
             firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -193,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 }
             });
         }else {
-            Toast.makeText(MainActivity.this, "Google Sign In Unsuccess", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Google Sign In Unsuccess" , Toast.LENGTH_SHORT).show();
         }
     }
 
     private void signInFacebookFirebase(AccessToken accessToken){
-        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken()); // Obtieen credencial con Token obtenido
 
         firebaseAuth.signInWithCredential(authCredential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -227,11 +227,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         firebaseAuth.removeAuthStateListener(authStateListener); // Mata el rpoceso
     }
 
+    // En este Metodo se reciben los datos de un intent for Result startActivityForResult
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == SIGN_IN_GOOGLE_CODE){
+        if (requestCode == SIGN_IN_GOOGLE_CODE){ //Identifica el Intent
             GoogleSignInResult googleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             signInGoogleFirebase(googleSignInResult);
         }else {

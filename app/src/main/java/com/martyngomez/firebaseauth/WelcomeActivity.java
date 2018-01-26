@@ -56,6 +56,7 @@ public class WelcomeActivity extends AppCompatActivity implements GoogleApiClien
 
     private void signOut(){
         firebaseAuth.signOut();
+        //Logout Google
         if (Auth.GoogleSignInApi != null){
             Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
@@ -71,6 +72,7 @@ public class WelcomeActivity extends AppCompatActivity implements GoogleApiClien
             });
         }
 
+        //Logout Facebook
         if (LoginManager.getInstance() != null){
             LoginManager.getInstance().logOut();
         }
