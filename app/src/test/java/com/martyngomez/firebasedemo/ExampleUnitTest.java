@@ -1,4 +1,4 @@
-package com.martyngomez.firebaseauth;
+package com.martyngomez.firebasedemo;
 
 import org.junit.Test;
 

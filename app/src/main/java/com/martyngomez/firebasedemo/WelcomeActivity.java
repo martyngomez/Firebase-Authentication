@@ -1,4 +1,4 @@
-package com.martyngomez.firebaseauth;
+package com.martyngomez.firebasedemo;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
